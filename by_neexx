@@ -1,0 +1,138 @@
+local RebirthData = require(game.ReplicatedStorage.Shared.Utilities.RebirthUtil)
+local RebirthTable = {}
+for i,v in pairs(RebirthData.List) do
+   if not v.Desc:match('Idk') then
+       RebirthTable[#RebirthTable+1] = v.Desc
+   end
+end
+
+local Eggs = {}
+for i,v in pairs(workspace.Eggs:GetChildren()) do
+   Eggs[#Eggs+1] = tostring(v)
+end
+
+local Library = loadstring(game:HttpGet('https://raw.githubusercontent.com/preztel/AzureLibrary/master/uilib.lua', true))()
+
+local Farming = Library:CreateTab('Farming', 'Modify farming section to your automatic needs!')
+local Upgrading = Library:CreateTab('Upgrading', 'Modify upgrading section to your automatic needs!')
+local Hatching = Library:CreateTab('Hatching', 'Modify hatching section to your automatic needs!')
+local Misc = Library:CreateTab('Misc', 'Some misc features perfect for you!')
+
+Farming:CreateToggle('Auto Tap', function(t)
+   _G.AutoTap = t
+   while wait() do
+       if _G.AutoTap then
+           game.ReplicatedStorage.RemoteEvents.Tap:FireServer()
+       end
+   end
+end)
+
+Farming:CreateToggle('Auto Rebirth', function(t)
+   _G.AutoRebirth = t
+   while wait() do
+       if _G.AutoRebirth then
+           game.ReplicatedStorage.RemoteFunctions.Rebirth:InvokeServer(_G.RebirthAmount or '1 Rebirths')
+       end
+   end
+end)
+
+Farming:CreateDropDown('Rebirth Amount', RebirthTable, function(t)
+   _G.RebirthAmount = t
+end)
+
+Upgrading:CreateToggle('Auto Upgrade Gems', function(t)
+   _G.AutoGems = t
+   while wait(1) do
+       if _G.AutoGems then
+           game.ReplicatgedStorage.RemoteFunctions.Upgrade:InvokeServer('GemMulti')
+       end
+   end
+end)
+
+Upgrading:CreateToggle('Auto Upgrade Clicks', function(t)
+   _G.AutoClicks = t
+   while wait(1) do
+       if _G.AutoClicks then
+           game.ReplicatgedStorage.RemoteFunctions.Upgrade:InvokeServer('ClickMulti')
+       end
+   end
+end)
+
+Upgrading:CreateToggle('Auto Upgrade Speed', function(t)
+   _G.AutoSpeed = t
+   while wait(1) do
+       if _G.AutoSpeed then
+           game.ReplicatgedStorage.RemoteFunctions.Upgrade:InvokeServer('SpeedMulti')
+       end
+   end
+end)
+
+Upgrading:CreateToggle('Auto Upgrade Rebirth', function(t)
+   _G.AutoRebirthOptions = t
+   while wait(1) do
+       if _G.AutoRebirthOptions then
+           game.ReplicatgedStorage.RemoteFunctions.Upgrade:InvokeServer('RebirthOptions')
+       end
+   end
+end)
+
+Upgrading:CreateToggle('Auto Upgrade Luck', function(t)
+   _G.AutoLuck = t
+   while wait(1) do
+       if _G.AutoLuck then
+           game.ReplicatgedStorage.RemoteFunctions.Upgrade:InvokeServer('MoreLuck')
+       end
+   end
+end)
+
+Upgrading:CreateToggle('Auto Upgrade Pets Equip', function(t)
+   _G.AutoPetsEquipped = t
+   while wait(1) do
+       if _G.AutoPetsEquipped then
+           game.ReplicatgedStorage.RemoteFunctions.Upgrade:InvokeServer('PetsEquipped')
+       end
+   end
+end)
+
+Upgrading:CreateToggle('Auto Upgrade Pet Storage', function(t)
+   _G.AutoPetStorage = t
+   while wait(1) do
+       if _G.AutoPetStorage then
+           game.ReplicatgedStorage.RemoteFunctions.Upgrade:InvokeServer('PetStorage')
+       end
+   end
+end)
+
+Hatching:CreateToggle('Auto Hatch', function(t)
+   _G.AutoHatch = t
+   while wait() do
+       if _G.AutoHatch then
+           game.ReplicatedStorage.Assets.Remotes.Functions.EggOpened:InvokeServer(_G.Egg, 'openEgg', _G.x3Hatch and 3 or 1)
+       end
+   end
+end)
+
+Hatching:CreateToggle('x3 Hatch', function(t)
+   _G.x3Hatch = t
+end)
+
+Hatching:CreateDropDown('Egg', Eggs, function(t)
+   _G.Egg = t
+end)
+
+local Obscured = false
+Misc:CreateButton('Unlock Gamepasses', function()
+   if Obscured then return end
+       local mt = getrawmetatable(game)
+       local old = mt.__namecall
+       setreadonly(mt, false)
+       mt.__namecall = function(self, ...)
+           local method = tostring(getnamecallmethod())
+           if method == 'UserOwnsGamePassAsync' then
+               return true
+           end
+           return old(self, ...)
+       end
+       setreadonly(mt, true)
+   Obscured = true
+end)
