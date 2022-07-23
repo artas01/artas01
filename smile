@@ -1,0 +1,99 @@
+local a=game:GetService'Players'local b=game:GetService'RunService'local c=game:
+GetService'Workspace'local d=game:GetService'CoreGui'local e=
+[[https://raw.githubusercontent.com/wally-rblx/LinoriaLib/main/]]local f=
+loadstring(game:HttpGet(e..'Library.lua'))()local g=loadstring(game:HttpGet(e..
+'addons/SaveManager.lua'))()local h=loadstring(game:HttpGet(e..
+'addons/ThemeManager.lua'))()local i=a.LocalPlayer local j=i.PlayerScripts.
+PlayerModule.CameraModule.MouseLockController.BoundKeys local k=c.Map.Infectors
+local l=c.Map.HumanBase.Vendor.BatCollection.HitBox local m=c.Map.HumanBase.
+Vendor.BottleCollection.HitBox local n=syn and syn.protect_gui or function(n)end
+local o={}local p={}local q=function(q)return q.Team and q.Team.Name=='Smiling'
+end local r=function(r)if r and r:IsA'Model'then local s=r:
+FindFirstChildWhichIsA'Humanoid'if s and s.Health>0 then local t=r.PrimaryPart
+or r:FindFirstChild'HumanoidRootPart'if t then return true end end end return
+false end local s=function(s)local t=Instance.new'Highlight't.FillColor=s.
+TeamColor.Color t.DepthMode=Enum.HighlightDepthMode.AlwaysOnTop t.RobloxLocked=
+true n(t)o[s]=t t.Parent=d local u=function()t.FillColor=s.TeamColor.Color end
+local v=function(v)t.Adornee=v end s:GetPropertyChangedSignal'TeamColor':
+Connect(u)s.CharacterAdded:Connect(v)local w=s.Character if w then v(w)end end
+local t=function(t)local u=o[t]if u then u:Destroy()o[t]=nil end end do f:
+SetWatermark'Linoria Community (OminousVibes)'f:Notify'Loading UI...'local u=f:
+CreateWindow'Murder Mystery 2'do local v=u:AddTab'Legit'do local w=v:
+AddLeftTabbox'Modifiers'local x=w:AddTab'Humans'x:AddToggle('HumanReach',{Text=
+'Reach',Default=false})x:AddSlider('HumanRange',{Text='Reach Radius',Min=1,Max=
+25,Default=5,Rounding=0,Suffix=' studs'})x:AddButton('Obtain Bat',function()
+local y=i.Character.HumanoidRootPart local z=y.CFrame y.CFrame=l.CFrame
+firetouchinterest(y,l,1)firetouchinterest(y,l,0)local A=false local B=os.clock()
+local C=i.Backpack.ChildAdded:Connect(function()A=true end)repeat task.wait()
+until A or os.clock()-B>1 C:Disconnect()y.CFrame=z y.AssemblyLinearVelocity=
+Vector3.new()end)x:AddButton('Obtain Bottle',function()local y=i.Character.
+HumanoidRootPart local z=y.CFrame y.CFrame=m.CFrame firetouchinterest(y,m,1)
+firetouchinterest(y,m,0)local A=false local B=os.clock()local C=i.Backpack.
+ChildAdded:Connect(function()A=true end)repeat task.wait()until A or os.clock()-
+B>1 C:Disconnect()y.CFrame=z y.AssemblyLinearVelocity=Vector3.new()end)x:
+AddToggle('AntiInfect',{Text='Anti Infect-Brick',Default=false})local y=w:AddTab
+'Infected'y:AddToggle('InfectedReach',{Text='Reach',Default=false})y:AddSlider(
+'InfectedRange',{Text='Reach Radius',Min=1,Max=25,Default=5,Rounding=0,Suffix=
+' studs'})end do local w=v:AddRightGroupbox'Others'w:AddToggle('SpeedHack',{Text
+='Speed Hack',Default=false}):AddKeyPicker('SpeedHack',{Text='Speed',Default=
+'LeftShift',Mode='Hold'})w:AddSlider('Speed',{Text='Speed',Min=1,Max=10,Default=
+2,Rounding=1,Suffix=''})w:AddToggle('LockBind',{Text='Bind Shift-Lock',Default=
+false}):AddKeyPicker('LockBind',{Text='Key',Default='LeftControl',NoUI=true})end
+do local w=v:AddLeftGroupbox'Auto Farm'w:AddToggle('AutoFarm',{Text='Enabled',
+Default=false})end end do local v=u:AddTab'Visuals'do local w=v:AddLeftTabbox
+'Visuals'local x=w:AddTab'Player'x:AddToggle('PlayerChams',{Text='ESP',Default=
+true})end do local w=v:AddRightGroupbox'World Render'w:AddLabel
+'Work in progress'end end do local v=u:AddTab'Settings'h:SetLibrary(f)g:
+SetLibrary(f)h:SetFolder'OminousVibes'g:SetFolder'OminousVibes/infectious-smile'
+g:IgnoreThemeSettings()g:SetIgnoreIndexes{'MenuKeybind'}g:BuildConfigSection(v)h
+:ApplyToTab(v)local w=v:AddLeftGroupbox'Menu'w:AddButton('Unload',function()f:
+Unload()end)w:AddLabel'Menu bind':AddKeyPicker('MenuKeybind',{Default='End',NoUI
+=true,Text='Menu keybind'})w:AddToggle('Keybinds',{Text='Show Keybinds Menu',
+Default=true}):OnChanged(function()f.KeybindFrame.Visible=Toggles.Keybinds.Value
+end)w:AddToggle('Watermark',{Text='Show Watermark',Default=true}):OnChanged(
+function()f:SetWatermarkVisibility(Toggles.Watermark.Value)end)end Toggles.
+AntiInfect:OnChanged(function()if Toggles.AntiInfect.Value then print(k.Parent)
+for v,w in ipairs(k:GetDescendants())do if w:IsA'TouchTransmitter'then local x=w
+.Parent local y=Instance.new'Part'y.Transparency=1 y.Anchored=true y.CanCollide=
+true y.CFrame=x.CFrame y.Size=x.Size+Vector3.new(2.5,2.5,2.5)n(y)y.Parent=x
+table.insert(p,y)end end else for v,w in ipairs(p)do w:Destroy()end p={}end end)
+Toggles.AutoFarm:OnChanged(function()if not Toggles.AutoFarm.Value then return
+end local v={}while Toggles.AutoFarm.Value do local w=i.Character if r(w)then
+local x=w.HumanoidRootPart if q(i)and w.Torso:FindFirstChild'Part'then local y
+for z,A in ipairs(a:GetPlayers())do if not q(A)and not table.find(v,A)then if r(
+A.Character)then y=A break end end end if y then local B=y.Character local C=
+getsenv(w.Infected.Infect).bind local D=debug.getproto(C,1,true)[1]if D then
+repeat task.spawn(D,{UserInputState=Enum.UserInputState.Begin,UserInputType=Enum
+.UserInputType.MouseButton1})firetouchinterest(w.Torso,B.HumanoidRootPart,1)
+firetouchinterest(w.Torso,B.HumanoidRootPart,0)x.CFrame=CFrame.new(B.
+HumanoidRootPart.Position-Vector3.new(0,20,0),B.HumanoidRootPart.Position)x.
+AssemblyLinearVelocity=Vector3.new()if not r(w)or not r(B)then break end b.
+Stepped:Wait()until q(y)or x:FindFirstChild'CaptureAlignPosition'or not Toggles.
+AutoFarm.Value repeat x.CFrame=CFrame.new(-41,2,59)x.AssemblyLinearVelocity=
+Vector3.new()if not r(w)or not r(B)then break end b.RenderStepped:Wait()until q(
+y)or not x:FindFirstChild'CaptureAlignPosition'or not Toggles.AutoFarm.Value
+table.insert(v,y)end end else local y=k:FindFirstChildWhichIsA(
+'TouchTransmitter',true).Parent firetouchinterest(x,y,1)firetouchinterest(x,y,0)
+end x.CFrame=CFrame.new(-41,2,59)x.AssemblyLinearVelocity=Vector3.new()local y=w
+.Humanoid:FindFirstAncestorWhichIsA'Animator'if y then for z,A in ipairs(y:
+GetPlayingAnimationTracks())do A:Stop()end end for z,A in ipairs(w:
+GetDescendants())do if A:IsA'BasePart'then A.CanCollide=false end end end b.
+RenderStepped:Wait()end i.Character:BreakJoints()end)f:Notify'UI Loaded'end a.
+PlayerAdded:Connect(s)a.PlayerRemoving:Connect(t)b.RenderStepped:Connect(
+function(u)for v,w in pairs(o)do w.Enabled=Toggles.PlayerChams.Value end if
+Toggles.LockBind.Value then j.Value=Options.LockBind.Value or'LeftControl'else j
+.Value='LeftShift, RightShift'end local x=i.Character if r(x)then if Toggles.
+SpeedHack.Value then local y=Options.SpeedHack:GetState()if y then x.Humanoid.
+WalkSpeed=16+Options.Speed.Value else x.Humanoid.WalkSpeed=16 end end if q(i)
+then if Toggles.InfectedReach.Value then local y=x.Torso for z,A in ipairs(a:
+GetPlayers())do if not q(A)then local B=A.Character if r(B)then local C=B.
+HumanoidRootPart if C then local D=(C.Position-x.HumanoidRootPart.Position).
+Magnitude if D<=Options.InfectedRange.Value then firetouchinterest(C,y,1)
+firetouchinterest(C,y,0)end end end end end end else if Toggles.HumanReach.Value
+then local y=x:FindFirstChildWhichIsA'Tool'if y then local z=y:
+FindFirstChildWhichIsA('TouchTransmitter',true)if z then local A=z.Parent for B,
+C in ipairs(a:GetPlayers())do if q(C)then local D=C.Character if r(D)then local
+E=D.HumanoidRootPart local F=(E.Position-A.Position).Magnitude if F<=Options.
+HumanRange.Value then firetouchinterest(E,A,1)firetouchinterest(E,A,0)end end
+end end end end end end end end)for u,v in ipairs(a:GetPlayers())do if v~=i then
+s(v)end end return f:Notify'[Infectious Smile] Loaded!'
